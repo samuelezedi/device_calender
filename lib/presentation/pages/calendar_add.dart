@@ -95,8 +95,8 @@ class _CalendarAddPageState extends State<CalendarAddPage> {
             if (result.isSuccess) {
               Navigator.pop(context, true);
             } else {
-              showInSnackBar(result.errors
-                  .map((err) => '[${err.errorCode}] ${err.errorMessage}')
+              showInSnackBar(result.errorMessages
+                  .map((err) => 'error')
                   .join(' | '));
             }
           }

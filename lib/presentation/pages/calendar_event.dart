@@ -57,7 +57,7 @@ class _CalendarEventPageState extends State<CalendarEventPage> {
   MonthOfYear _monthOfYear;
   WeekNumber _weekOfMonth;
   DayOfWeek _selectedDayOfWeek = DayOfWeek.Monday;
-  Availability _availability = Availability.Busy;
+
 
   List<Attendee> _attendees = <Attendee>[];
   List<Reminder> _reminders = <Reminder>[];
@@ -79,7 +79,7 @@ class _CalendarEventPageState extends State<CalendarEventPage> {
       _dayOfMonth = 1;
       _monthOfYear = MonthOfYear.January;
       _weekOfMonth = WeekNumber.First;
-      _availability = Availability.Busy;
+
     } else {
       _startDate = _event.start;
       _endDate = _event.end;
@@ -120,7 +120,7 @@ class _CalendarEventPageState extends State<CalendarEventPage> {
         }
       }
 
-      _availability = _event.availability;
+
     }
 
     _startTime = TimeOfDay(hour: _startDate.hour, minute: _startDate.minute);
@@ -215,23 +215,23 @@ class _CalendarEventPageState extends State<CalendarEventPage> {
                         'Availability',
                         style: TextStyle(fontSize: 16),
                       ),
-                      trailing: DropdownButton<Availability>(
-                        value: _availability,
-                        onChanged: (Availability newValue) {
-                          setState(() {
-                            _availability = newValue;
-                            _event.availability = newValue;
-                          });
-                        },
-                        items: Availability.values
-                            .map<DropdownMenuItem<Availability>>(
-                                (Availability value) {
-                              return DropdownMenuItem<Availability>(
-                                value: value,
-                                child: Text(value.enumToString ?? ''),
-                              );
-                            }).toList(),
-                      ),
+//                      trailing: DropdownButton<Availability>(
+//                        value: _availability,
+//                        onChanged: (Availability newValue) {
+//                          setState(() {
+//                            _availability = newValue;
+//                            _event.availability = newValue;
+//                          });
+//                        },
+//                        items: Availability.values
+//                            .map<DropdownMenuItem<Availability>>(
+//                                (Availability value) {
+//                              return DropdownMenuItem<Availability>(
+//                                value: value,
+//                                child: Text(value.enumToString ?? ''),
+//                              );
+//                            }).toList(),
+//                      ),
                     ),
                     SwitchListTile(
                       value: _event.allDay,
@@ -269,12 +269,12 @@ class _CalendarEventPageState extends State<CalendarEventPage> {
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: TextFormField(
-                            initialValue: _event.startTimeZone,
+                            initialValue: "###########",
                             decoration: const InputDecoration(
                                 labelText: 'Start date time zone',
                                 hintText: 'Australia/Sydney'),
                             onSaved: (String value) {
-                              _event.startTimeZone = value;
+//                              _event.start = value;
                             },
                           ),
                         ),
@@ -304,22 +304,22 @@ class _CalendarEventPageState extends State<CalendarEventPage> {
                           },
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: TextFormField(
-                          initialValue: Platform.isAndroid
-                              ? _event.endTimeZone
-                              : _event.startTimeZone,
-                          decoration: InputDecoration(
-                              labelText: Platform.isAndroid
-                                  ? 'End date time zone'
-                                  : 'Start and end time zone',
-                              hintText: 'Australia/Sydney'),
-                          onSaved: (String value) => Platform.isAndroid
-                              ? _event.endTimeZone = value
-                              : _event.startTimeZone = value,
-                        ),
-                      ),
+//                      Padding(
+//                        padding: const EdgeInsets.all(10.0),
+//                        child: TextFormField(
+//                          initialValue: Platform.isAndroid
+//                              ? _event.endTimeZone
+//                              : _event.startTimeZone,
+//                          decoration: InputDecoration(
+//                              labelText: Platform.isAndroid
+//                                  ? 'End date time zone'
+//                                  : 'Start and end time zone',
+//                              hintText: 'Australia/Sydney'),
+//                          onSaved: (String value) => Platform.isAndroid
+//                              ? _event.endTimeZone = value
+//                              : _event.startTimeZone = value,
+//                        ),
+//                      ),
                     ],
                     GestureDetector(
                       onTap: () async {
@@ -791,14 +791,13 @@ class _CalendarEventPageState extends State<CalendarEventPage> {
               }
               _event.attendees = _attendees;
               _event.reminders = _reminders;
-              _event.availability = _availability;
               var createEventResult =
               await _deviceCalendarPlugin.createOrUpdateEvent(_event);
               if (createEventResult.isSuccess) {
                 Navigator.pop(context, true);
               } else {
-                showInSnackBar(createEventResult.errors
-                    .map((err) => '[${err.errorCode}] ${err.errorMessage}')
+                showInSnackBar(createEventResult.errorMessages
+                    .map((err) => '')
                     .join(' | '));
               }
             }
