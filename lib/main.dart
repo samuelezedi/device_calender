@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'common/app_routes.dart';
 import 'presentation/pages/calendars.dart';
 
 void main() {
@@ -45,6 +44,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
 
-    return CalendarsPage(key: Key('calendarsPage'))
+    return CalendarsPage(key: Key('calendarsPage'));
   }
 }
